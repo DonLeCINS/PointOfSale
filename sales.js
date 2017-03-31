@@ -3,8 +3,23 @@ var runningTotal = 0.0;
 function addItem()
 {
   var newItem;
+  var dollars;
   newItem = document.getElementById("price").value;
-  //IF newItem is not a number
+  //If newItem is not a number
+  if(isNaN(newItem))
+  {
+  alert("Enter price as a number")
+  }
+  else
+  {
+    newItem = Number(newItem);
+    runningTotal = runningTotal + newItem;
+    dollars = asCurrency(runningTotal)
+    document.getElementById("subtotal").innerHTML = dollars;
+    document.getElementById("price").innerHTML = "";
+    setCookie("preTax", runningTotal , 1);
+  }
+
   // THEN show an alert: "Enter price as a number"
   //OTHERWISE,
   // update newItem to its value cast as a number
@@ -14,6 +29,19 @@ function addItem()
   // update the innerHTML of the span with the id "subtotal" to be dollars
   // update the value of the input with the id "price" to be an empty string
   // update a cookie called "preTax" with the value of runningTotal
+}
+function calculateReceipt()
+{
+  var receiptTax;
+  var receiptTotal;
+  var receiptSubtotal = getCookie("preTax");
+  receiptSubtotal = Number(receiptSubtotal);
+  receiptTax = receiptSubtotal * 0.075;
+  receiptTotal = receiptSubtotal + receiptTax;
+  document.getElementById("sub").innerHTML = asCurrency(receiptSubtotal);
+  document.getElementById("tot").innerHTML = asCurrency(receiptTotal);
+  document.getElementById("tax").innerHTML = asCurrency(receiptTax);
+
 }
 
 //takes a number and gives a string with the number displayed as USD currency
